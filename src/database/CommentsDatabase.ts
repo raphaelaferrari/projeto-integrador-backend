@@ -11,47 +11,13 @@ export class CommentsDatabase extends BaseDatabase {
 
     public createComments = async (createComments: CommentsDB): Promise<void> => {
         await BaseDatabase.connection(CommentsDatabase.TABLE_COMMENTS)
-        .insert(createComments)
+            .insert(createComments)
     }
 
-    public quantityComments = async (id: string)=> {
-        const result= await BaseDatabase.connection(CommentsDatabase.TABLE_COMMENTS)
-        .select()
-        .count()
-        .where({ [`${CommentsDatabase.TABLE_COMMENTS}.post_id`]: id })
-    
-        return result
-    }
-    
-    public searchPostId =async (id: string) : Promise<PostDBCreatorName> => {
-        const [result] = await BaseDatabase.connection(PostDatabase.TABLE_POSTS)
-            .select(
-                `${PostDatabase.TABLE_POSTS}.id`,
-                `${PostDatabase.TABLE_POSTS}.content`,
-                `${PostDatabase.TABLE_POSTS}.creator_id`,
-                `${PostDatabase.TABLE_POSTS}.likes`,
-                `${PostDatabase.TABLE_POSTS}.dislikes`,
-                `${PostDatabase.TABLE_POSTS}.comments`,
-                `${PostDatabase.TABLE_POSTS}.created_at`,
-                `${UserDatabase.TABLE_NAME}.name as creator_name`
-            )
-            .join(
-                `${UserDatabase.TABLE_NAME}`,
-                `${PostDatabase.TABLE_POSTS}.creator_id`,
-                "=",
-                `${UserDatabase.TABLE_NAME}.id`,
-    
-            )
-            .where({ [`${PostDatabase.TABLE_POSTS}.id`]: id})
-    
-            return result as PostDBCreatorName
-
-    }
-
-    public editPost =async (postDB: PostDB) : Promise<void>=> {
+    public editPost = async (postDB: PostDB): Promise<void> => {
         await BaseDatabase.connection(PostDatabase.TABLE_POSTS)
-        .update(postDB)
-        .where({id: postDB.id})
+            .update(postDB)
+            .where({ id: postDB.id })
     }
 
     public getComments = async (q: string): Promise<CommentsDBCreatorName[]> => {
@@ -86,6 +52,21 @@ export class CommentsDatabase extends BaseDatabase {
             .where({ id: commentsDB.id })
     }
 
+    public deleteComments = async (id: string): Promise<void> => {
+        await BaseDatabase.connection(CommentsDatabase.TABLE_COMMENTS)
+            .delete()
+            .where({ id })
+    }
+
+    public quantityComments = async (id: string) => {
+        const [result] = await BaseDatabase.connection(CommentsDatabase.TABLE_COMMENTS)
+            .select()
+            .count()
+            .where({ [`${CommentsDatabase.TABLE_COMMENTS}.post_id`]: id })
+
+        return result['count(*)'] as number
+    }
+
     public searchCommentsId = async (id: string): Promise<CommentsDB | undefined> => {
         const [result] = await BaseDatabase.connection(CommentsDatabase.TABLE_COMMENTS)
             .select()
@@ -117,11 +98,30 @@ export class CommentsDatabase extends BaseDatabase {
 
         return result as CommentsDBCreatorName | undefined
     }
+    
+    public searchPostId = async (id: string): Promise<PostDBCreatorName> => {
+        const [result] = await BaseDatabase.connection(PostDatabase.TABLE_POSTS)
+            .select(
+                `${PostDatabase.TABLE_POSTS}.id`,
+                `${PostDatabase.TABLE_POSTS}.content`,
+                `${PostDatabase.TABLE_POSTS}.creator_id`,
+                `${PostDatabase.TABLE_POSTS}.likes`,
+                `${PostDatabase.TABLE_POSTS}.dislikes`,
+                `${PostDatabase.TABLE_POSTS}.comments`,
+                `${PostDatabase.TABLE_POSTS}.created_at`,
+                `${UserDatabase.TABLE_NAME}.name as creator_name`
+            )
+            .join(
+                `${UserDatabase.TABLE_NAME}`,
+                `${PostDatabase.TABLE_POSTS}.creator_id`,
+                "=",
+                `${UserDatabase.TABLE_NAME}.id`,
 
-    public deleteComments = async (id: string): Promise<void> => {
-        await BaseDatabase.connection(CommentsDatabase.TABLE_COMMENTS)
-            .delete()
-            .where({ id })
+            )
+            .where({ [`${PostDatabase.TABLE_POSTS}.id`]: id })
+
+        return result as PostDBCreatorName
+
     }
 
     public searchLikeDislike = async (likeDislikeDB: LikeDislikeDB): Promise<COMMENTS_LIKE | undefined> => {
