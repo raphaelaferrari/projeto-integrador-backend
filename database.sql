@@ -41,6 +41,7 @@ SELECT COUNT() FROM comments
 WHERE post_id = "654531cc-10e3-4b29-b580-43b7a0899c81"
 ;
 
+SELECT FROM * users;
 CREATE TABLE likes_dislikes (
   user_id TEXT NOT NULL,
   post_id TEXT NOT NULL,
@@ -70,19 +71,7 @@ VALUES
   -- tipo NORMAL e senha = fulano123
 	('u001', 'Fulano', 'fulano@email.com', '$2a$12$qPQj5Lm1dQK2auALLTC0dOWedtr/Th.aSFf3.pdK5jCmYelFrYadC', 'NORMAL'),
   -- tipo NORMAL e senha = beltrana00
-	('u002', 'Beltrana', 'beltrana@email.com', '$2a$12$403HVkfVSUbDioyciv9IC.oBlgMqudbnQL8ubebJIXScNs8E3jYe2', 'NORMAL');
-
-INSERT INTO posts (id, creator_id, content)
-VALUES
-("p001", "u001", "teste 1"),
-("p002", "u001", "oi");
-
-INSERT INTO likes_dislikes (user_id, post_id, like)
-VALUES
-("u001", "p002", 1);
-INSERT INTO comments (id, creator_comments_id, post_id, content)
-VALUES
-("c001","u001", "p002", "legal");
+	('u002', 'Beltrana', 'beltrana@email.com', '$2a$12$403HVkfVSUbDioyciv9IC.oBlgMqudbnQL8ubebJIXScNs8E3jYe2', 'ADMIN');
 
 
 DROP TABLE posts;

@@ -1,5 +1,4 @@
 import { CommentsDatabase } from "../database/CommentsDatabase"
-import { PostDatabase } from "../database/PostDatabase"
 import { CreateCommentstInputDTO, CreateCommentstOutputDTO } from "../dtos/comments/createComments.dto"
 import { DeleteCommentsInputDTO, DeleteCommentsOutputDTO } from "../dtos/comments/deleteComments.dto"
 import { GetCommentsInputDTO, GetCommentsOutputDTO } from "../dtos/comments/getComments.dto"
@@ -40,7 +39,7 @@ export class CommentsBusiness {
             payload.name
         )
 
-
+            
         const newCommentsDB = newComments.toDBModel()
         await this.commentsDatabase.createComments(newCommentsDB)
 
@@ -118,8 +117,34 @@ export class CommentsBusiness {
         } else if (payload.id !== searchCommentsDB.creator_comments_id) {
             throw new BadRequestError("somente quem criou o comments pode deletar")
         }
-
+        
+        
+        const post = await this.commentsDatabase.searchPostId(searchCommentsDB.post_id)
         await this.commentsDatabase.deleteComments(id)
+        
+        const newPost =  new Post(
+            post.id,
+            post.content,
+            post.likes,
+            post.dislikes,
+            post.comments,
+            post.created_at,
+            post.creator_id,
+            post.creator_name
+        )
+
+        const quantityComments = await this.commentsDatabase.quantityComments(id)
+        
+        if (!quantityComments) {
+            newPost.setComments(0)
+        }else{
+            newPost.setComments(quantityComments)
+        }
+        
+       
+        
+        const editPostDB= newPost.toDBModel()
+        await this.commentsDatabase.editPost(editPostDB)
 
         const output: DeleteCommentsOutputDTO = undefined
 

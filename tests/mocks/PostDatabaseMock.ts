@@ -2,7 +2,7 @@ import { LikeDislikeDB, POST_LIKE, PostDB, PostDBCreatorName } from "../../src/m
 import { BaseDatabase } from "../../src/database/BaseDatabase"
 import { usersMock } from "../mocks/UserDatabaseMock"
 
-const postMock: PostDB[] = [
+export const postMock: PostDB[] = [
     {
         id: "id-post-mock-fulano",
         creator_id: "id-mock-fulano",
@@ -83,13 +83,8 @@ export class PostDatabaseMock extends BaseDatabase {
     public editPost = async (postDb: PostDB): Promise<void> => {
     }
 
-    public updatePost = async (
-        postDB: PostDB
-    ): Promise<void> => {
-        // await BaseDatabase
-        //   .connection(PostDatabase.TABLE_POSTS)
-        //   .update(postDB)
-        //   .where({ id: postDB.id })
+    public updatePost = async (postDB: PostDB): Promise<void> => {
+        
     }
 
     public deletePost = async (id: string): Promise<void> => {
@@ -119,8 +114,6 @@ export class PostDatabaseMock extends BaseDatabase {
         } else {
             return undefined
         }
-
-
 
     }
 
