@@ -13,15 +13,25 @@ O projeto integrador backend é uma API  de rede social com o objetivo de promov
 # endpoints criados
 
 Signup
+
 Login
+
 Create post
+
 Create comments
+
 Get post
+
 Get comments
+
 Edit post
+
 Like or dislike post
+
 Like or dislike comments
+
 Delete post
+
 Delete comments
 
 # link do Postman
