@@ -1,4 +1,4 @@
-# projeto-integrador-backend
+# projeto integrador backend
 
 O projeto integrador backend é uma API  de rede social com o objetivo de promover a conexão e interação entre pessoas. Quem se cadastrar na rede social poderá criar posts, curtir publicações, comentar os posts e sobretudo conectar pessoas ao redor do mundo.
 
