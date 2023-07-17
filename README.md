@@ -37,3 +37,9 @@ Delete comments
 # link do Postman
 
 https://documenter.getpostman.com/view/24823202/2s93zB6h5b
+
+# Observação
+
+Link do frontend desse projeto
+
+https://github.com/raphaelaferrari/projeto-integrador-frontend
